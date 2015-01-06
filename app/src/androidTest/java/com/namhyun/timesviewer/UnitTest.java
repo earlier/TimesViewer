@@ -1,6 +1,7 @@
 package com.namhyun.timesviewer;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.namhyun.timesviewer.api.NewsWire;
 import com.namhyun.timesviewer.api.ResultContainer;
@@ -1214,8 +1215,19 @@ public class UnitTest extends AndroidTestCase {
             "    }]\n" +
             "}";
 
-    public void testGetResult(){
-        List<ResultContainer> containers = new NewsWire().getResults(testJsonStr);
+    public void testGetResult() {
+        List<ResultContainer> containers = new NewsWire().getResultsUsesGson(testJsonStr);
+        for (ResultContainer container : containers) {
+            String titleStr = container.getTitle();
+            String abstractStr = container.getAbstract();
+            String urlStr = container.getUrl();
+            String multimediaStr = container.getMultimediaUrl();
+            Log.d("UnitTest", new StringBuilder("Values : ")
+                    .append(titleStr + "\n")
+                    .append(abstractStr + "\n")
+                    .append(urlStr + "\n")
+                    .append(multimediaStr + "\n").toString());
+        }
         assertNotNull(containers);
     }
 }

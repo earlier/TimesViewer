@@ -2,6 +2,9 @@ package com.namhyun.timesviewer.api;
 
 import android.net.Uri;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +42,7 @@ public class NewsWire {
     }
 
     /**
-     * Build Uri instance (custom paramter)
+     * Built Uri instance (custom paramter)
      *
      * @param source  Source parameter (all / nyt / iht)
      * @param section Section paramter
@@ -90,6 +93,80 @@ public class NewsWire {
             e.printStackTrace();
         } finally {
             return results;
+        }
+    }
+
+    /**
+     * Get result from json data
+     * @deprecated This method is not stable
+     *
+     * @param jsonStr Json data
+     * @return ResultContainer List
+     */
+    public List<ResultContainer> getResultsUsesGson(String jsonStr){
+        List<ResultContainer> results = new ArrayList<ResultContainer>();
+        Gson gson = new Gson();
+        GsonContainer gsonContainer =  gson.fromJson(jsonStr, GsonContainer.class);
+        for(GsonContainer.Result container : gsonContainer.getResults()){
+            String titleStr = container.getTitle();
+            String abstractStr = container.getAbstract();
+            String urlStr = container.getUrl();
+
+            // TODO : Some results multimedia field is empty. It was occurred exception
+            // TODO : Exception Content) IllegalStateException: Expected BEGIN_ARRAY but was STRING
+            String multimediaUrlStr = container.getMultimedia().get(0).getUrl();
+            results.add(new ResultContainer(titleStr, abstractStr, urlStr, multimediaUrlStr));
+        }
+        return results;
+    }
+
+    /**
+     * Gson POJO Class
+     *
+     * class GsonContainer
+     * class GsonContainer.Result
+     * class Multimedia
+     */
+    public class GsonContainer{
+        private List<Result> results;
+
+        public List<Result> getResults() {
+            return results;
+        }
+
+        public class Result {
+            private String title;
+
+            @SerializedName("abstract")
+            private String abstractStr;
+
+            private String url;
+
+            private List<Multimedia> multimedia;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getAbstract(){
+                return abstractStr;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public List<Multimedia> getMultimedia() {
+                return multimedia;
+            }
+        }
+    }
+
+    public class Multimedia {
+        private String url;
+
+        public String getUrl() {
+            return url;
         }
     }
 }

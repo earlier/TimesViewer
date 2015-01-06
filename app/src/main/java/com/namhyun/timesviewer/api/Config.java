@@ -27,5 +27,5 @@ public class Config {
     /**
      * Define api key
      */
-    public static final String API_KEY = "76d17caafcb86e0435dd18b662a6df80:11:70677161";
+    public static final String API_KEY = "YOUR API KEY";
 }

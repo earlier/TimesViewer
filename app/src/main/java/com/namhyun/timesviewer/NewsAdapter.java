@@ -1,6 +1,8 @@
 package com.namhyun.timesviewer;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +75,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         View itemView = holder.getView();
-        ResultContainer container = mResultContainerList.get(position);
+        final ResultContainer container = mResultContainerList.get(position);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(container.getUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                if(intent.resolveActivity(mActivity.getPackageManager()) != null){
+                    mActivity.startActivity(intent);
+                }
+            }
+        });
 
         TextView contentPrimary = (TextView) itemView.findViewById(R.id.content_primary);
         TextView contentSecondary = (TextView) itemView.findViewById(R.id.content_secondary);
@@ -82,10 +95,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         contentPrimary.setText(container.getTitle());
         contentSecondary.setText(container.getAbstract());
 
-        Glide.with(mActivity).load(container.getMultimediaUrl())
-                .centerCrop()
-                .crossFade()
-                .into(contentImage);
+        if(container.getMultimediaUrl() == null){
+            contentImage.setVisibility(View.GONE);
+        } else {
+            Glide.with(mActivity).load(container.getMultimediaUrl())
+                    .centerCrop()
+                    .crossFade()
+                    .into(contentImage);
+        }
     }
 
     @Override
