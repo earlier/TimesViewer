@@ -121,6 +121,16 @@ public class NewsWire {
     }
 
     /**
+     *
+     *
+     * @param param
+     * @return
+     */
+    private int test(int param){
+        return param;
+    }
+
+    /**
      * Gson POJO Class
      *
      * class GsonContainer

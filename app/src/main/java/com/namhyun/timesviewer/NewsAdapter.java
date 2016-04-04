@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by user on 2015-01-05.
+ * Created by Namhyun, Gu on 2015-01-05.
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<ResultContainer> mResultContainerList;
     private Activity mActivity;
 
     public NewsAdapter(Activity mActivity) {
-        mResultContainerList = new ArrayList<ResultContainer>();
+        this.mResultContainerList = new ArrayList<ResultContainer>();
         this.mActivity = mActivity;
     }
 
@@ -109,6 +109,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public int getItemCount() {
         return mResultContainerList.size();
     }
-
 
 }
