@@ -4,7 +4,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.namhyun.timesviewer.api.NewsWire;
-import com.namhyun.timesviewer.api.ResultContainer;
+import com.namhyun.timesviewer.api.News;
 
 import java.util.List;
 
@@ -1216,8 +1216,8 @@ public class UnitTest extends AndroidTestCase {
             "}";
 
     public void testGetResult() {
-        List<ResultContainer> containers = new NewsWire().getResultsUsesGson(testJsonStr);
-        for (ResultContainer container : containers) {
+        List<News> containers = new NewsWire().getResultsUsesGson(testJsonStr);
+        for (News container : containers) {
             String titleStr = container.getTitle();
             String abstractStr = container.getAbstract();
             String urlStr = container.getUrl();
